@@ -3,8 +3,20 @@ name: Playwright Tests
 on:
   push:
     branches: [ main, develop ]
+    paths:
+      - 'src/**'                    # Roda se mudar algo na pasta src
+      - 'tests/**'                  # Roda se mudar algo na pasta tests
+      - 'pages/**'                  # Roda se mudar algo na pasta pages
+      - 'fixtures/**'               # Roda se mudar algo na pasta fixtures
+      - 'playwright.config.ts'      # Roda se mudar a configuração
+      - 'package.json'              # Roda se mudar dependências
+      - 'package-lock.json'         # Roda se mudar dependências
   pull_request:
     branches: [ main ]
+    paths:
+      - 'tests/**'
+      - 'pages/**'
+      - 'fixtures/**'
 
 jobs:
   test:
@@ -23,6 +35,8 @@ jobs:
       with:
         path: ~/.cache/ms-playwright
         key: playwright-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          playwright-${{ runner.os }}-
     
     - name: Install dependencies
       run: npm ci
